@@ -2,6 +2,15 @@ import { getLocalStorage } from "./utils.mjs";
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
+  if (!cartItems || cartItems.length === 0) {
+    // If cart is empty, display a default message
+    document.querySelector(".product-list").innerHTML = `
+      <li class="cart-card divider">
+        <p>Your cart is currently empty. Start adding some items!</p>
+      </li>
+    `;
+    return; // Exit the function early
+  }
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
 }
