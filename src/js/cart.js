@@ -6,7 +6,7 @@ function renderCartContents() {
     // If cart is empty, display a default message
     document.querySelector(".product-list").innerHTML = `
       <li class="cart-card divider">
-        <p>Your cart is currently empty. Start adding some items!</p>
+        <p>Your cart is currently empty.</p>
       </li>
     `;
     return; // Exit the function early
