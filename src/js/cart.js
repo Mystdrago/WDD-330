@@ -1,5 +1,16 @@
 import { getLocalStorage } from "./utils.mjs";
 
+function addToCart(product) {
+  // Retrieve the existing cart array from localStorage or initialize it as an empty array
+  let cart = getLocalStorage("so-cart") || [];
+
+  // Add the new product to the cart array
+  cart.push(product);
+
+  // Save the updated cart array back to localStorage
+  setLocalStorage("so-cart", cart);
+}
+
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
   if (!cartItems || cartItems.length === 0) {
