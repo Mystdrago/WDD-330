@@ -44,5 +44,18 @@ function cartItemTemplate(item) {
 
   return newItem;
 }
+// Call this when "Add to Cart" is clicked
+document.querySelector("addToCart").addEventListener("click", () => {
+  const product = {
+    Name: document.querySelector("item.Name").textContent,
+    Image: document.querySelector("item.Image").src,
+    Colors: [{ ColorName: document.querySelector("item.Colors").textContent }],
+    FinalPrice: parseFloat(document.querySelector("item.FinalPrice").textContent.replace("$", "")),
+  };
 
+  addToCart(product); // Save the product to the cart
+  alert("Added to cart."); // Notify the user
+});
+
+// Initial render of the cart
 renderCartContents();
