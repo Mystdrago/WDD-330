@@ -13,6 +13,7 @@ function addProductToCart(product) {
   console.log("Item to add to the cart",cartItems)
   setLocalStorage("so-cart", cartItems);
 }
+
 // add to cart button event handler
 async function addToCartHandler(e) {
   console.log("Add to cart handler clicked")
