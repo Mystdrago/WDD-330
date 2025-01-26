@@ -2,17 +2,25 @@ import { getLocalStorage } from "./utils.mjs";
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
+  const cartFooter = document.querySelector(".cart-footer");
+  
   if (!cartItems || cartItems.length === 0) {
-    // If cart is empty, display a default message
     document.querySelector(".product-list").innerHTML = `
       <li class="cart-card divider">
         <p>Your cart is currently empty.</p>
       </li>
     `;
-    return; // Exit the function early
+    cartFooter.classList.add("hide");
+    return;
   }
+
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
+  
+  // Calculate and display total
+  const total = cartItems.reduce((sum, item) => sum + item.FinalPrice, 0);
+  document.querySelector(".cart-total").innerHTML = `Total: $${total.toFixed(2)}`;
+  cartFooter.classList.remove("hide");
 }
 
 function cartItemTemplate(item) {
