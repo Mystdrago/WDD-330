@@ -1,4 +1,4 @@
-import { renderListWithTemplate } from "./utils.mjs";
+import { renderWithTemplate } from "./utils.mjs";
 
 // Product card template
 function productCardTemplate(product) {
@@ -29,13 +29,16 @@ export default class ProductListing {
 
   // Render list
   renderList(products) {
-    renderListWithTemplate(
-      productCardTemplate,
-      this.element,
-      this.filterProducts(products),
-      "afterbegin",
-      true,
-    );
+    const filteredProducts = this.filterProducts(products);
+    if (filteredProducts.length > 0) {
+      renderWithTemplate(
+        productCardTemplate,
+        this.element,
+        filteredProducts,
+        "afterbegin",
+        true
+      );
+    }
   }
 
   // Initialize
