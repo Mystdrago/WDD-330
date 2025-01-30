@@ -1,7 +1,6 @@
 import { getLocalStorage, renderWithTemplate } from "./utils.mjs";
 
 function cartItemTemplate(item) {
-  // Ensure quantity exists, default to 1 if not set
   const quantity = item.quantity || 1;
   return `<li class="cart-card divider">
     <a href="#" class="cart-card__image">
@@ -11,7 +10,11 @@ function cartItemTemplate(item) {
       <h2 class="card__name">${item.Name}</h2>
     </a>
     <p class="cart-card__color">${item.Colors[0].ColorName}</p>
-    <p class="cart-card__quantity">qty: ${quantity}</p>
+    <div class="cart-card__quantity">
+      <button class="quantity-btn decrease" data-id="${item.Id}">-</button>
+      <span>qty: ${quantity}</span>
+      <button class="quantity-btn increase" data-id="${item.Id}">+</button>
+    </div>
     <p class="cart-card__price">$${(item.FinalPrice * quantity).toFixed(2)}</p>
     <span class="remove-item" data-id="${item.Id}">X</span>
   </li>`;
@@ -51,6 +54,11 @@ export default class ShoppingCart {
     this.renderCart(list);
     document.querySelectorAll(".remove-item").forEach(btn => {
       btn.addEventListener("click", (e) => this.removeItem(e));
+    });
+
+    // Add quantity control listeners
+    document.querySelectorAll(".quantity-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => this.updateQuantity(e));
     });
   }
 
@@ -101,5 +109,23 @@ export default class ShoppingCart {
     
     localStorage.setItem(this.key, JSON.stringify(list));
     return list.length;
+  }
+
+  updateQuantity(e) {
+    const itemId = e.target.dataset.id;
+    const isIncrease = e.target.classList.contains("increase");
+    let list = getLocalStorage(this.key);
+    
+    const item = list.find(item => item.Id === itemId);
+    if (item) {
+      if (isIncrease) {
+        item.quantity = (item.quantity || 1) + 1;
+      } else {
+        item.quantity = Math.max((item.quantity || 1) - 1, 1);
+      }
+      
+      localStorage.setItem(this.key, JSON.stringify(list));
+      this.init();
+    }
   }
 }

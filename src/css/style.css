@@ -220,11 +220,29 @@ button {
 .cart-card__quantity {
   grid-row: 1;
   grid-column: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
 }
 
 .cart-card__price {
   grid-row: 2;
   grid-column: 3;
+}
+
+.quantity-btn {
+  padding: 0.2em 0.5em;
+  font-size: 1em;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0;
+}
+
+.quantity-btn:hover {
+  background-color: var(--primary-color);
 }
 
 .remove-item {
