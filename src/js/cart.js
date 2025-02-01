@@ -3,7 +3,7 @@ import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
   const cartFooter = document.querySelector(".cart-footer");
-  
+
   if (!cartItems || cartItems.length === 0) {
     document.querySelector(".product-list").innerHTML = `
       <li class="cart-card divider">
@@ -16,14 +16,15 @@ function renderCartContents() {
 
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
-  
+
   // Calculate and display total
   const total = cartItems.reduce((sum, item) => sum + item.FinalPrice, 0);
-  document.querySelector(".cart-total").innerHTML = `Total: $${total.toFixed(2)}`;
+  document.querySelector(".cart-total").innerHTML =
+    `Total: $${total.toFixed(2)}`;
   cartFooter.classList.remove("hide");
 
   // Add event listeners to remove buttons
-  document.querySelectorAll(".remove-item").forEach(btn => {
+  document.querySelectorAll(".remove-item").forEach((btn) => {
     btn.addEventListener("click", removeFromCart);
   });
 }
@@ -46,13 +47,13 @@ function cartItemTemplate(item) {
 function removeFromCart(e) {
   const itemId = e.target.dataset.id;
   let cartItems = getLocalStorage("so-cart");
-  
+
   // Remove the item with the matching id
-  cartItems = cartItems.filter(item => item.Id !== itemId);
-  
+  cartItems = cartItems.filter((item) => item.Id !== itemId);
+
   // Update localStorage
   setLocalStorage("so-cart", cartItems);
-  
+
   // Re-render the cart
   renderCartContents();
 }
